@@ -6,7 +6,6 @@ import torch
 import torch.nn as nn
 from net import gtnet
 import numpy as np
-import importlib
 
 from util import *
 from trainer import Optim
@@ -93,11 +92,11 @@ def train(data, X, Y, model, criterion, optim, batch_size):
 
 
 parser = argparse.ArgumentParser(description='PyTorch Time series forecasting')
-parser.add_argument('--data', type=str, default='./data/solar_AL.txt',
+parser.add_argument('--data', type=str, default='./data/train_M1.txt',
                     help='location of the data file')
 parser.add_argument('--log_interval', type=int, default=2000, metavar='N',
                     help='report interval')
-parser.add_argument('--save', type=str, default='model/model.pt',
+parser.add_argument('--save', type=str, default='./model/model-usindex.pt',
                     help='path to save the final model')
 parser.add_argument('--optim', type=str, default='adam')
 parser.add_argument('--L1Loss', type=bool, default=True)
@@ -106,9 +105,9 @@ parser.add_argument('--device',type=str,default='cuda:1',help='')
 parser.add_argument('--gcn_true', type=bool, default=True, help='whether to add graph convolution layer')
 parser.add_argument('--buildA_true', type=bool, default=True, help='whether to construct adaptive adjacency matrix')
 parser.add_argument('--gcn_depth',type=int,default=2,help='graph convolution depth')
-parser.add_argument('--num_nodes',type=int,default=137,help='number of nodes/variables')
+parser.add_argument('--num_nodes',type=int,default=10,help='number of nodes/variables')
 parser.add_argument('--dropout',type=float,default=0.3,help='dropout rate')
-parser.add_argument('--subgraph_size',type=int,default=20,help='k')
+parser.add_argument('--subgraph_size',type=int,default=10,help='k')
 parser.add_argument('--node_dim',type=int,default=40,help='dim of nodes')
 parser.add_argument('--dilation_exponential',type=int,default=2,help='dilation exponential')
 parser.add_argument('--conv_channels',type=int,default=16,help='convolution channels')
@@ -116,12 +115,12 @@ parser.add_argument('--residual_channels',type=int,default=16,help='residual cha
 parser.add_argument('--skip_channels',type=int,default=32,help='skip channels')
 parser.add_argument('--end_channels',type=int,default=64,help='end channels')
 parser.add_argument('--in_dim',type=int,default=1,help='inputs dimension')
-parser.add_argument('--seq_in_len',type=int,default=24*7,help='input sequence length')
+parser.add_argument('--seq_in_len',type=int,default=42,help='input sequence length')
 parser.add_argument('--seq_out_len',type=int,default=1,help='output sequence length')
-parser.add_argument('--horizon', type=int, default=3)
+parser.add_argument('--horizon', type=int, default=24)
 parser.add_argument('--layers',type=int,default=5,help='number of layers')
 
-parser.add_argument('--batch_size',type=int,default=32,help='batch size')
+parser.add_argument('--batch_size',type=int,default=3,help='batch size')
 parser.add_argument('--lr',type=float,default=0.0001,help='learning rate')
 parser.add_argument('--weight_decay',type=float,default=0.00001,help='weight decay rate')
 
@@ -130,9 +129,9 @@ parser.add_argument('--clip',type=int,default=5,help='clip')
 parser.add_argument('--propalpha',type=float,default=0.05,help='prop alpha')
 parser.add_argument('--tanhalpha',type=float,default=3,help='tanh alpha')
 
-parser.add_argument('--epochs',type=int,default=1,help='')
+parser.add_argument('--epochs',type=int,default=30,help='')
 parser.add_argument('--num_split',type=int,default=1,help='number of splits for graphs')
-parser.add_argument('--step_size',type=int,default=100,help='step_size')
+parser.add_argument('--step_size',type=int,default=10,help='step_size')
 
 
 args = parser.parse_args()
